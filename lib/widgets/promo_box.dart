@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app_flutter/models/models.dart';
 
 class PromoBox extends StatelessWidget {
-  const PromoBox({
-    Key? key,
-  }) : super(key: key);
+  final Promo promo;
+  const PromoBox({Key? key, required this.promo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,39 +15,64 @@ class PromoBox extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Theme.of(context).primaryColor,
-            image: const DecorationImage(
-              image: NetworkImage(
-                  'https://images.pexels.com/photos/140134/pexels-photo-140134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+            image: DecorationImage(
+              image: NetworkImage(promo.imageUrl),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(top: 10, left: 15, right: 125),
-          margin: const EdgeInsets.only(right: 5),
-          width: MediaQuery.of(context).size.width - 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'FREE DELIVERY on your first 3 orders',
-                style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.white),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Place an order of \$10 or more and the delivery fee is waived',
-                style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
-              ),
-            ],
+        ClipPath(
+          clipper: PromoCustomClipper(),
+          child: Container(
+            padding: const EdgeInsets.only(top: 10, left: 15, right: 125),
+            margin: const EdgeInsets.only(right: 5),
+            width: MediaQuery.of(context).size.width - 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  promo.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  promo.description,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
+  }
+}
+
+class PromoCustomClipper extends CustomClipper<Path> {
+  @override
+  getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(225, size.height);
+    path.lineTo(275, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

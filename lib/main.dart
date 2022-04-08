@@ -7,13 +7,14 @@ import 'package:food_delivery_app_flutter/configs/app_router.dart';
 import 'package:food_delivery_app_flutter/configs/theme.dart';
 import 'package:food_delivery_app_flutter/repository/geolocation/geolocation_repository.dart';
 import 'package:food_delivery_app_flutter/repository/places/places_repository.dart';
+import 'package:food_delivery_app_flutter/screens/screens.dart';
 import 'package:food_delivery_app_flutter/simple_bloc_observer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
     () {
-      runApp(MyApp());
+      runApp(const MyApp());
     },
     blocObserver: SimpleBlocObserver(),
   );
@@ -37,9 +38,9 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<GeolocationBloc>(
-            create: (context) =>
-                GeolocationBloc(geolocationRepository: context.read<GeolocationRepository>())
-                  ..add(LoadGeolocation()),
+            create: (context) => GeolocationBloc(
+                geolocationRepository: context.read<GeolocationRepository>())
+              ..add(LoadGeolocation()),
           ),
           BlocProvider<AutocompleteBloc>(
             create: (context) => AutocompleteBloc(
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Food Delivery',
           theme: theme(),
           onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: '/',
+          initialRoute: RestaurantDetailScreen.routeName,
         ),
       ),
     );
