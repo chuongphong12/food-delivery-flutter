@@ -52,5 +52,18 @@ ThemeData theme() {
     appBarTheme: const AppBarTheme(
       color: Color(0xFFFE3C5B),
     ),
+    colorScheme: const ColorScheme(
+      primary: Color(0xFFFE3C5B),
+      secondary: Color(0xFFe84545),
+      background: Color(0xFFFFFFFF),
+      surface: Color(0xFFFFFFFF),
+      error: Color(0x00000000),
+      brightness: Brightness.light,
+      onPrimary: Color(0xFFFFFFFF),
+      onSecondary: Color(0xFFFFFFFF),
+      onError: Color(0xFF2b2e4a),
+      onBackground: Color(0xFF2b2e4a),
+      onSurface: Color(0xFF2b2e4a),
+    ),
   );
 }
