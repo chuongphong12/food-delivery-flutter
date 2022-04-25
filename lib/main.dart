@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery_app_flutter/blocs/autocomplete/autocomplete_bloc.dart';
+import 'package:food_delivery_app_flutter/blocs/filters/filters_bloc.dart';
 import 'package:food_delivery_app_flutter/blocs/geolocation/geolocation_bloc.dart';
 import 'package:food_delivery_app_flutter/blocs/place/place_bloc.dart';
 import 'package:food_delivery_app_flutter/configs/app_router.dart';
@@ -38,9 +39,9 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<GeolocationBloc>(
-            create: (context) =>
-                GeolocationBloc(geolocationRepository: context.read<GeolocationRepository>())
-                  ..add(LoadGeolocation()),
+            create: (context) => GeolocationBloc(
+                geolocationRepository: context.read<GeolocationRepository>())
+              ..add(LoadGeolocation()),
           ),
           BlocProvider<AutocompleteBloc>(
             create: (context) => AutocompleteBloc(
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
               placesRepository: context.read<PlacesRepository>(),
             ),
           ),
+          BlocProvider(create: (context) => FiltersBloc()..add(FilterLoad())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

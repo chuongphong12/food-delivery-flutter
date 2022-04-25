@@ -5,7 +5,8 @@ import 'package:food_delivery_app_flutter/widgets/widgets.dart';
 class RestaurantDetailScreen extends StatelessWidget {
   final Restaurant restaurant;
 
-  const RestaurantDetailScreen({Key? key, required this.restaurant}) : super(key: key);
+  const RestaurantDetailScreen({Key? key, required this.restaurant})
+      : super(key: key);
 
   static const String routeName = '/restaurant-details';
 
@@ -45,15 +46,19 @@ class RestaurantDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.elliptical(MediaQuery.of(context).size.width, 50),
-                ),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(restaurant.imageUrl),
+            Hero(
+              tag: restaurant.name,
+              child: Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.elliptical(
+                        MediaQuery.of(context).size.width, 50),
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(restaurant.imageUrl),
+                  ),
                 ),
               ),
             ),
@@ -73,7 +78,8 @@ class RestaurantDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItems(Restaurant restaurant, BuildContext context, int index) {
+  Widget _buildMenuItems(
+      Restaurant restaurant, BuildContext context, int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

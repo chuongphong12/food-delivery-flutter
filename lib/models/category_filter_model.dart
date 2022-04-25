@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:food_delivery_app_flutter/models/category_model.dart';
 
 class CategoryFilter extends Equatable {
-  final int id;
+  late int id;
   final Category category;
   final bool value;
 
-  const CategoryFilter({
+  CategoryFilter({
     required this.id,
     required this.category,
     required this.value,
@@ -28,7 +28,8 @@ class CategoryFilter extends Equatable {
   List<Object> get props => [id, category, value];
 
   @override
-  String toString() => 'CategoryFilter(id: $id, category: $category, value: $value)';
+  String toString() =>
+      'CategoryFilter(id: $id, category: $category, value: $value)';
 
   static List<CategoryFilter> filters = Category.categories
       .map(
