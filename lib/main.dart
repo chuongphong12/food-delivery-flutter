@@ -38,9 +38,9 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<GeolocationBloc>(
-            create: (context) => GeolocationBloc(
-                geolocationRepository: context.read<GeolocationRepository>())
-              ..add(LoadGeolocation()),
+            create: (context) =>
+                GeolocationBloc(geolocationRepository: context.read<GeolocationRepository>())
+                  ..add(LoadGeolocation()),
           ),
           BlocProvider<AutocompleteBloc>(
             create: (context) => AutocompleteBloc(
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Food Delivery',
           theme: theme(),
           onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: RestaurantDetailScreen.routeName,
+          initialRoute: HomeScreen.routeName,
         ),
       ),
     );

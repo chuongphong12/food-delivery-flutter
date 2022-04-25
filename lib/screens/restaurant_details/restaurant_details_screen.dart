@@ -3,41 +3,42 @@ import 'package:food_delivery_app_flutter/models/models.dart';
 import 'package:food_delivery_app_flutter/widgets/widgets.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
-  const RestaurantDetailScreen({Key? key}) : super(key: key);
+  final Restaurant restaurant;
+
+  const RestaurantDetailScreen({Key? key, required this.restaurant}) : super(key: key);
 
   static const String routeName = '/restaurant-details';
 
-  static Route route() {
+  static Route route({required Restaurant restaurant}) {
     return MaterialPageRoute(
-      builder: (context) => const RestaurantDetailScreen(),
+      builder: (context) => RestaurantDetailScreen(
+        restaurant: restaurant,
+      ),
       settings: const RouteSettings(name: routeName),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    Restaurant restaurant = Restaurant.restaurants[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                  shape: const RoundedRectangleBorder(),
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                ),
-                onPressed: () {},
-                child: const Text('Basket'),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shape: const RoundedRectangleBorder(),
+                padding: const EdgeInsets.symmetric(horizontal: 50),
               ),
-            ],
-          ),
+              onPressed: () {},
+              child: const Text('Basket'),
+            ),
+          ],
         ),
       ),
       extendBodyBehindAppBar: true,
@@ -48,8 +49,7 @@ class RestaurantDetailScreen extends StatelessWidget {
               height: 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(
-                  bottom:
-                      Radius.elliptical(MediaQuery.of(context).size.width, 50),
+                  bottom: Radius.elliptical(MediaQuery.of(context).size.width, 50),
                 ),
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -73,8 +73,7 @@ class RestaurantDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItems(
-      Restaurant restaurant, BuildContext context, int index) {
+  Widget _buildMenuItems(Restaurant restaurant, BuildContext context, int index) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -98,6 +97,7 @@ class RestaurantDetailScreen extends StatelessWidget {
                 (e) => Column(
                   children: [
                     Container(
+                      color: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: ListTile(
                         dense: true,
@@ -114,7 +114,10 @@ class RestaurantDetailScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('\$${e.price}'),
+                            Text(
+                              '\$${e.price}',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
                             IconButton(
                               onPressed: () {},
                               icon: Icon(
@@ -125,7 +128,8 @@ class RestaurantDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    const Divider(height: 2),
                   ],
                 ),
               )

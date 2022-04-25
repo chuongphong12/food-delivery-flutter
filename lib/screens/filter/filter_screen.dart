@@ -15,7 +15,7 @@ class FilterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Basket')),
+      appBar: AppBar(title: const Text('Filter')),
       body: Center(
         child: ElevatedButton(
           child: const Text('Location Screen'),
