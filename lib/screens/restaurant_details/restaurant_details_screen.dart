@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app_flutter/models/models.dart';
+import 'package:food_delivery_app_flutter/screens/basket/basket_screen.dart';
 import 'package:food_delivery_app_flutter/widgets/widgets.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
@@ -36,7 +37,9 @@ class RestaurantDetailScreen extends StatelessWidget {
                 shape: const RoundedRectangleBorder(),
                 padding: const EdgeInsets.symmetric(horizontal: 50),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, BasketScreen.routeName);
+              },
               child: const Text('Basket'),
             ),
           ],

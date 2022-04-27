@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:food_delivery_app_flutter/models/category_model.dart';
 
 class CategoryFilter extends Equatable {
-  late int id;
+  final int id;
   final Category category;
   final bool value;
 
-  CategoryFilter({
+  const CategoryFilter({
     required this.id,
     required this.category,
     required this.value,

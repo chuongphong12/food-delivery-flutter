@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery_app_flutter/blocs/filters/filters_bloc.dart';
+import 'package:food_delivery_app_flutter/models/argument_model.dart';
+import 'package:food_delivery_app_flutter/models/restaurant_model.dart';
+import 'package:food_delivery_app_flutter/screens/screens.dart';
 import 'package:food_delivery_app_flutter/widgets/custom_category_filter.dart';
 import 'package:food_delivery_app_flutter/widgets/custom_price_filter.dart';
 
@@ -18,6 +21,35 @@ class FilterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _applyFilter(FiltersLoaded state) {
+      var categories = state.filter.categoryFilters
+          .where((filter) => filter.value)
+          .map((filter) => filter.category.name)
+          .toList();
+      var prices = state.filter.priceFilters
+          .where((filter) => filter.value)
+          .map((filter) => filter.price.price)
+          .toList();
+
+      List<Restaurant> restaurants = Restaurant.restaurants
+          .where(
+            (restaurant) => categories.any(
+              (category) => restaurant.tags.contains(category),
+            ),
+          )
+          .where(
+            (restaurant) => prices.any(
+              (price) => restaurant.priceCategory.contains(price),
+            ),
+          )
+          .toList();
+      Navigator.pushNamed(
+        context,
+        RestaurantListingScreen.routeName,
+        arguments: RestaurantListingArguments('Filter', restaurants),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Filter')),
       bottomNavigationBar: BottomAppBar(
@@ -38,14 +70,7 @@ class FilterScreen extends StatelessWidget {
                       shape: const RoundedRectangleBorder(),
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                     ),
-                    onPressed: () {
-                      print(state.filter.categoryFilters;
-                      var categories = state.filter.categoryFilters
-                          .where((filter) => filter.value)
-                          .map((filter) => filter.category.name)
-                          .toList();
-                      print(categories);
-                    },
+                    onPressed: () => _applyFilter(state),
                     child: const Text('Apply'),
                   );
                 } else {
