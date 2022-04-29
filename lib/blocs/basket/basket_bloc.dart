@@ -27,12 +27,34 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   void _onAddBasket(
     AddBasket event,
     Emitter<BasketState> emit,
-  ) async {}
+  ) async {
+    final Basket basket = (state as BasketLoaded).basket;
+    try {
+      emit(
+        BasketLoaded(
+          basket: basket.copyWith(
+            menuItems: List.from(basket.menuItems)..add(event.menuItem),
+          ),
+        ),
+      );
+    } catch (_) {}
+  }
 
   void _onRemoveBasket(
     RemoveBasket event,
     Emitter<BasketState> emit,
-  ) async {}
+  ) async {
+    final Basket basket = (state as BasketLoaded).basket;
+    try {
+      emit(
+        BasketLoaded(
+          basket: basket.copyWith(
+            menuItems: List.from(basket.menuItems)..remove(event.menuItem),
+          ),
+        ),
+      );
+    } catch (_) {}
+  }
 
   void _onClearBasket(
     ClearBasket event,
@@ -42,7 +64,14 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   void _onToggleSwitch(
     ToggleSwitch event,
     Emitter<BasketState> emit,
-  ) async {}
-
-  
+  ) async {
+    final Basket basket = (state as BasketLoaded).basket;
+    try {
+      emit(
+        BasketLoaded(
+          basket: basket.copyWith(cutlery: !basket.cutlery),
+        ),
+      );
+    } catch (_) {}
+  }
 }

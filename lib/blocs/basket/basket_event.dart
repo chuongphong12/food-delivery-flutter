@@ -40,12 +40,6 @@ class ClearBasket extends BasketEvent {
 }
 
 class ToggleSwitch extends BasketEvent {
-  final bool value;
-
-  const ToggleSwitch({
-    required this.value,
-  });
-
   @override
-  List<Object> get props => [value];
+  List<Object> get props => [];
 }

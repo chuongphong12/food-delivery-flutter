@@ -23,16 +23,16 @@ class Basket extends Equatable {
   @override
   List<Object> get props => [menuItems, cutlery];
 
-  Map itemQuantity(menuItems) {
+  Map itemQuantity(List<MenuItem> menuItems) {
     var quantity = {};
 
-    menuItems.forEach((item) {
+    for (var item in menuItems) {
       if (!quantity.containsKey(item)) {
         quantity[item] = 1;
       } else {
         quantity[item] += 1;
       }
-    });
+    }
 
     return quantity;
   }

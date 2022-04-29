@@ -32,49 +32,44 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
     CategoryFilterUpdated event,
     Emitter<FiltersState> emit,
   ) async {
-    if (state is FiltersLoaded) {
-      final cateFilters = (state as FiltersLoaded).filter.categoryFilters;
-      final priceFilter = (state as FiltersLoaded).filter.priceFilters;
-      final List<CategoryFilter> updatedCategoryFilters =
-          cateFilters.map((categoryFilter) {
-        return categoryFilter.id == event.categoryFilter.id
-            ? event.categoryFilter
-            : categoryFilter;
-      }).toList();
+    final cateFilters = (state as FiltersLoaded).filter.categoryFilters;
+    final priceFilter = (state as FiltersLoaded).filter.priceFilters;
+    final List<CategoryFilter> updatedCategoryFilters =
+        cateFilters.map((categoryFilter) {
+      return categoryFilter.id == event.categoryFilter.id
+          ? event.categoryFilter
+          : categoryFilter;
+    }).toList();
 
-      emit(
-        FiltersLoaded(
-          filter: Filter(
-            categoryFilters: updatedCategoryFilters,
-            priceFilters: priceFilter,
-          ),
+    emit(
+      FiltersLoaded(
+        filter: Filter(
+          categoryFilters: updatedCategoryFilters,
+          priceFilters: priceFilter,
         ),
-      );
-    }
+      ),
+    );
   }
 
   void _onUpdatePriceFilter(
     PriceFilterUpdated event,
     Emitter<FiltersState> emit,
   ) async {
-    if (state is FiltersLoaded) {
-      final cateFilters = (state as FiltersLoaded).filter.categoryFilters;
-      final priceFilter = (state as FiltersLoaded).filter.priceFilters;
-      final List<PriceFilter> updatePriceFilter =
-          priceFilter.map((priceFilter) {
-        return priceFilter.id == event.priceFilter.id
-            ? event.priceFilter
-            : priceFilter;
-      }).toList();
+    final cateFilters = (state as FiltersLoaded).filter.categoryFilters;
+    final priceFilter = (state as FiltersLoaded).filter.priceFilters;
+    final List<PriceFilter> updatePriceFilter = priceFilter.map((priceFilter) {
+      return priceFilter.id == event.priceFilter.id
+          ? event.priceFilter
+          : priceFilter;
+    }).toList();
 
-      emit(
-        FiltersLoaded(
-          filter: Filter(
-            categoryFilters: cateFilters,
-            priceFilters: updatePriceFilter,
-          ),
+    emit(
+      FiltersLoaded(
+        filter: Filter(
+          categoryFilters: cateFilters,
+          priceFilters: updatePriceFilter,
         ),
-      );
-    }
+      ),
+    );
   }
 }

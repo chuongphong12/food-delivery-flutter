@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery_app_flutter/blocs/basket/basket_bloc.dart';
 import 'package:food_delivery_app_flutter/models/models.dart';
 import 'package:food_delivery_app_flutter/screens/basket/basket_screen.dart';
 import 'package:food_delivery_app_flutter/widgets/widgets.dart';
@@ -127,12 +129,21 @@ class RestaurantDetailScreen extends StatelessWidget {
                               '\$${e.price}',
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.add_circle,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                            BlocBuilder<BasketBloc, BasketState>(
+                              builder: (context, state) {
+                                return IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<BasketBloc>()
+                                        .add(AddBasket(menuItem: e));
+                                  },
+                                  icon: Icon(
+                                    Icons.add_circle,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                );
+                              },
                             )
                           ],
                         ),
