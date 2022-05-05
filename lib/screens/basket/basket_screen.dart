@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery_app_flutter/blocs/basket/basket_bloc.dart';
+import 'package:food_delivery_app_flutter/screens/screens.dart';
 
 class BasketScreen extends StatelessWidget {
   const BasketScreen({Key? key}) : super(key: key);
@@ -127,6 +128,7 @@ class BasketScreen extends StatelessWidget {
                             ),
                           )
                         : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: state.basket
                                 .itemQuantity(state.basket.menuItems)
@@ -200,7 +202,10 @@ class BasketScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, DeliveryTimeScreen.routeName);
+                          },
                           child: Text(
                             'Change',
                             style: Theme.of(context)
@@ -230,31 +235,49 @@ class BasketScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset('assets/delivery_time.svg'),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Do you have a voucher?',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: Text(
-                            'Apply',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                          ),
-                        )
-                      ],
+                    BlocBuilder<BasketBloc, BasketState>(
+                      builder: (context, state) {
+                        if (state is BasketLoaded) {
+                          return (state.basket.voucher == null)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Do you have a voucher?',
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, VoucherScreen.routeName);
+                                      },
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      child: Text(
+                                        'Apply',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                            ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Text(
+                                  'Your vouchers: ${state.basket.voucher?.code}',
+                                  style: Theme.of(context).textTheme.headline6,
+                                );
+                        } else {
+                          return const Text('Something went wrong');
+                        }
+                      },
                     )
                   ].reversed.toList(),
                 ),
@@ -306,6 +329,41 @@ class BasketScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          (state.basket.voucher != null)
+                              ? const SizedBox(height: 5)
+                              : const SizedBox.shrink(),
+                          (state.basket.voucher != null
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Voucher',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                                .withOpacity(0.8),
+                                          ),
+                                    ),
+                                    Text(
+                                      '- \$${state.basket.voucher?.value}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                                .withOpacity(0.8),
+                                          ),
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox.shrink()),
                           const SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

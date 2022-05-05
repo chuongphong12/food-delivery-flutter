@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:food_delivery_app_flutter/models/basket_model.dart';
-import 'package:food_delivery_app_flutter/models/menu_item_model.dart';
+import 'package:food_delivery_app_flutter/models/delivery_time_model.dart';
+import 'package:food_delivery_app_flutter/models/models.dart';
 
 part 'basket_event.dart';
 part 'basket_state.dart';
@@ -13,6 +13,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<RemoveBasket>(_onRemoveBasket);
     on<ClearBasket>(_onClearBasket);
     on<ToggleSwitch>(_onToggleSwitch);
+    on<AddVoucher>(_onAddVoucher);
   }
 
   void _onStartBasket(
@@ -70,6 +71,17 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       emit(
         BasketLoaded(
           basket: basket.copyWith(cutlery: !basket.cutlery),
+        ),
+      );
+    } catch (_) {}
+  }
+
+  void _onAddVoucher(AddVoucher event, Emitter<BasketState> emit) async {
+    final Basket basket = (state as BasketLoaded).basket;
+    try {
+      emit(
+        BasketLoaded(
+          basket: basket.copyWith(voucher: event.voucher),
         ),
       );
     } catch (_) {}

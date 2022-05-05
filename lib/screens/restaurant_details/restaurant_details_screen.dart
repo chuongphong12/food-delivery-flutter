@@ -51,19 +51,16 @@ class RestaurantDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Hero(
-              tag: restaurant.name,
-              child: Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 50),
-                  ),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(restaurant.imageUrl),
-                  ),
+            Container(
+              height: 250,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  bottom:
+                      Radius.elliptical(MediaQuery.of(context).size.width, 50),
+                ),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(restaurant.imageUrl),
                 ),
               ),
             ),
