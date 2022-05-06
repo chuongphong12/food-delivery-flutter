@@ -14,6 +14,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     on<ClearBasket>(_onClearBasket);
     on<ToggleSwitch>(_onToggleSwitch);
     on<AddVoucher>(_onAddVoucher);
+    on<SelectDeliveryTime>(_onSelectDeliveryTime);
   }
 
   void _onStartBasket(
@@ -82,6 +83,18 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       emit(
         BasketLoaded(
           basket: basket.copyWith(voucher: event.voucher),
+        ),
+      );
+    } catch (_) {}
+  }
+
+  void _onSelectDeliveryTime(
+      SelectDeliveryTime event, Emitter<BasketState> emit) async {
+    final Basket basket = (state as BasketLoaded).basket;
+    try {
+      emit(
+        BasketLoaded(
+          basket: basket.copyWith(deliveryTime: event.deliveryTime),
         ),
       );
     } catch (_) {}

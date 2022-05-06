@@ -18,8 +18,10 @@ class FoodSearchBox extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.white,
                 hintText: 'What would you like to eat?',
-                suffixIcon: Icon(Icons.search, color: Theme.of(context).primaryColor),
-                contentPadding: const EdgeInsets.only(left: 20, bottom: 5, top: 12.5),
+                suffixIcon:
+                    Icon(Icons.search, color: Theme.of(context).primaryColor),
+                contentPadding:
+                    const EdgeInsets.only(left: 20, bottom: 5, top: 12.5),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.circular(10),

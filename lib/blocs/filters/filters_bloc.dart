@@ -18,6 +18,8 @@ class FiltersBloc extends Bloc<FiltersEvent, FiltersState> {
     FilterLoad event,
     Emitter<FiltersState> emit,
   ) async {
+    emit(FiltersLoading());
+    await Future.delayed(const Duration(seconds: 1));
     emit(
       FiltersLoaded(
         filter: Filter(

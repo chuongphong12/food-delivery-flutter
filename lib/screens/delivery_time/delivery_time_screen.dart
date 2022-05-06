@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery_app_flutter/blocs/basket/basket_bloc.dart';
 import 'package:food_delivery_app_flutter/models/delivery_time_model.dart';
 
 class DeliveryTimeScreen extends StatelessWidget {
@@ -27,7 +29,9 @@ class DeliveryTimeScreen extends StatelessWidget {
                 shape: const RoundedRectangleBorder(),
                 padding: const EdgeInsets.symmetric(horizontal: 50),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text('Select'),
             ),
           ],
@@ -85,14 +89,33 @@ class DeliveryTimeScreen extends StatelessWidget {
                             crossAxisCount: 3, childAspectRatio: 2.5),
                     itemCount: DeliveryTime.deliveryTimes.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            DeliveryTime.deliveryTimes[index].value,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                        ),
+                      return BlocBuilder<BasketBloc, BasketState>(
+                        builder: (context, state) {
+                          return Card(
+                            color:
+                                ((state as BasketLoaded).basket.deliveryTime ==
+                                        DeliveryTime.deliveryTimes[index])
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .secondary
+                                        .withOpacity(0.8)
+                                    : Colors.white,
+                            child: TextButton(
+                              onPressed: () {
+                                context.read<BasketBloc>().add(
+                                      SelectDeliveryTime(
+                                        deliveryTime:
+                                            DeliveryTime.deliveryTimes[index],
+                                      ),
+                                    );
+                              },
+                              child: Text(
+                                DeliveryTime.deliveryTimes[index].value,
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     }),
               ),

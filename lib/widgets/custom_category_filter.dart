@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_delivery_app_flutter/blocs/filters/filters_bloc.dart';
 
 class CustomCategoryFilter extends StatelessWidget {
@@ -11,9 +12,9 @@ class CustomCategoryFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FiltersBloc, FiltersState>(
       builder: (context, state) {
-        if (state is FilterLoading) {
+        if (state is FiltersLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitDualRing(color: Colors.white),
           );
         }
         if (state is FiltersLoaded) {

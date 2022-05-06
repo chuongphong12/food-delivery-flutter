@@ -194,30 +194,45 @@ class BasketScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset('assets/delivery_time.svg'),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Delivery in 20 minutes',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, DeliveryTimeScreen.routeName);
-                          },
-                          child: Text(
-                            'Change',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                          ),
-                        )
-                      ],
+                    BlocBuilder<BasketBloc, BasketState>(
+                      builder: (context, state) {
+                        if (state is BasketLoaded) {
+                          return (state.basket.deliveryTime == null)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Delivery in 20 minutes',
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                            DeliveryTimeScreen.routeName);
+                                      },
+                                      child: Text(
+                                        'Change',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                            ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Text(
+                                  'Delivery time is: ${state.basket.deliveryTime!.value}',
+                                  style: Theme.of(context).textTheme.headline6,
+                                );
+                        } else {
+                          return const Text('Something went wrong');
+                        }
+                      },
                     )
                   ],
                 ),

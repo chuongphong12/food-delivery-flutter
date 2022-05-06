@@ -9,7 +9,7 @@ abstract class FiltersState extends Equatable {
 
 class FiltersInitial extends FiltersState {}
 
-class FilterLoading extends FiltersState {}
+class FiltersLoading extends FiltersState {}
 
 class FiltersLoaded extends FiltersState {
   final Filter filter;

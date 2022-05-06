@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_delivery_app_flutter/blocs/filters/filters_bloc.dart';
 
 class CustomPriceFilter extends StatelessWidget {
@@ -11,9 +12,11 @@ class CustomPriceFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FiltersBloc, FiltersState>(
       builder: (context, state) {
-        if (state is FilterLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+        if (state is FiltersLoading) {
+          return Center(
+            child: SpinKitFadingCube(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           );
         }
         if (state is FiltersLoaded) {
