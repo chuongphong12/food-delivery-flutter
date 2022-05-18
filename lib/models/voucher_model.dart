@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Voucher extends Equatable {
-  final int id;
+  final String id;
   final String code;
   final double value;
 
@@ -12,7 +13,7 @@ class Voucher extends Equatable {
   });
 
   Voucher copyWith({
-    int? id,
+    String? id,
     String? code,
     double? value,
   }) {
@@ -23,6 +24,22 @@ class Voucher extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'code': code,
+      'value': value,
+    };
+  }
+
+  factory Voucher.fromSnapshot(DocumentSnapshot snap) {
+    return Voucher(
+      id: snap.id,
+      code: snap['code'],
+      value: snap['value'].toDouble(),
+    );
+  }
+
   @override
   String toString() => 'Voucher(id: $id, code: $code, value: $value)';
 
@@ -30,20 +47,8 @@ class Voucher extends Equatable {
   List<Object> get props => [id, code, value];
 
   static List<Voucher> vouchers = [
-    const Voucher(
-      id: 1,
-      code: 'SAVE5',
-      value: 5,
-    ),
-    const Voucher(
-      id: 2,
-      code: 'SAVE10',
-      value: 10,
-    ),
-    const Voucher(
-      id: 3,
-      code: 'SAVE15',
-      value: 15,
-    ),
+    const Voucher(id: '1', code: 'SAVE5', value: 5),
+    const Voucher(id: '2', code: 'SAVE10', value: 10),
+    const Voucher(id: '3', code: 'SAVE15', value: 15),
   ];
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_delivery_app_flutter/blocs/basket/basket_bloc.dart';
-import 'package:food_delivery_app_flutter/models/voucher_model.dart';
+import 'package:food_delivery_app_flutter/blocs/vouchers/vouchers_bloc.dart';
 
 class VoucherScreen extends StatelessWidget {
   const VoucherScreen({Key? key}) : super(key: key);
@@ -68,64 +67,68 @@ class VoucherScreen extends StatelessWidget {
                     color: Theme.of(context).colorScheme.secondary,
                   ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: Voucher.vouchers.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(left: 10),
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '1x',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: Text(
-                          Voucher.vouchers[index].code,
-                          style: Theme.of(context).textTheme.headline6!,
+            BlocBuilder<VouchersBloc, VouchersState>(
+              builder: (context, state) {
+                if (state is VouchersLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is VouchersLoaded) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.vouchers.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      BlocBuilder<BasketBloc, BasketState>(
-                        builder: (context, state) {
-                          if (state is BasketLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state is BasketLoaded) {
-                            return TextButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '1x',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                            ),
+                            const SizedBox(width: 20),
+                            Expanded(
+                              child: Text(
+                                state.vouchers[index].code,
+                                style: Theme.of(context).textTheme.headline6!,
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                  visualDensity: VisualDensity.compact),
                               onPressed: () {
                                 Navigator.pop(context);
-                                context.read<BasketBloc>().add(
-                                      AddVoucher(
-                                        voucher: Voucher.vouchers[index],
-                                      ),
+                                context.read<VouchersBloc>().add(
+                                      SelectVoucher(
+                                          voucher: state.vouchers[index]),
                                     );
                               },
                               child: const Text('Apply'),
-                            );
-                          } else {
-                            return const TextButton(
-                              onPressed: null,
-                              child: Text('Apply'),
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                );
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(
+                    child: Text('No vouchers'),
+                  );
+                }
               },
             )
           ],
